@@ -29,8 +29,6 @@
             margin: 0;
             overflow: hidden;
             cursor: crosshair;
-            /* Prevent default touch behaviors that might interfere with Lenis */
-            touch-action: none;
         }
 
         .font-serif { font-family: 'Playfair Display', serif; }
@@ -67,12 +65,21 @@
             }
         }
 
-        /* Card Flap Shapes */
+        /* Card Flap Shapes & Beauty */
         .card-flap-top {
-            clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 85%, 0 100%);
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 88%, 0 100%);
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.3);
         }
         .card-flap-bottom {
-            clip-path: polygon(0 0, 50% 15%, 100% 0, 100% 100%, 0 100%);
+            clip-path: polygon(0 0, 50% 12%, 100% 0, 100% 100%, 0 100%);
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.3);
+        }
+
+        .card-ornament {
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            margin: 15px;
+            height: calc(100% - 30px);
+            pointer-events: none;
         }
 
         /* Smooth Scroll Container */
@@ -82,7 +89,7 @@
             overflow: hidden;
             -ms-overflow-style: none;
             scrollbar-width: none;
-            /* Allow vertical panning for touch devices */
+            /* Critical for mobile scrolling with Lenis in a fixed-height frame */
             touch-action: pan-y;
         }
 
@@ -100,13 +107,14 @@
             pointer-events: auto;
         }
 
-        .seal-btn {
-            animation: pulse-gold 2s infinite ease-in-out;
+        .wax-seal {
+            background: radial-gradient(circle at 30% 30%, #e0c06a, #d4af37, #b8860b);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4), inset -2px -2px 5px rgba(0,0,0,0.3), inset 2px 2px 5px rgba(255,255,255,0.4);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        @keyframes pulse-gold {
-            0%, 100% { transform: scale(1); box-shadow: 0 0 20px rgba(212, 175, 55, 0.4); }
-            50% { transform: scale(1.05); box-shadow: 0 0 40px rgba(212, 175, 55, 0.6); }
+        .wax-seal:hover {
+            transform: scale(1.1) rotate(5deg);
         }
 
         canvas#three-bg {
@@ -127,21 +135,28 @@
             
             <!-- Cinematic Card Overlay -->
             <div class="card-overlay" id="cardOverlay">
-                <div class="card-flap-top flex-1 bg-[#4a0404] border-b border-[#d4af37]/30 relative overflow-hidden">
+                <div class="card-flap-top flex-1 bg-[#4a0404] relative overflow-hidden">
                     <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/paper-fibers.png')]"></div>
+                    <div class="card-ornament absolute inset-0"></div>
+                    <div class="absolute bottom-16 left-1/2 -translate-x-1/2 text-center w-full px-12">
+                        <p class="text-[#d4af37] font-serif italic text-lg opacity-60 tracking-widest mb-2">Invitation</p>
+                        <div class="h-px w-12 bg-[#d4af37]/30 mx-auto"></div>
+                    </div>
                 </div>
                 
                 <div class="card-seal absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[210] flex flex-col items-center" id="cardSeal">
-                    <div onclick="openInvitation()" class="seal-btn w-24 h-24 bg-[#d4af37] rounded-full shadow-2xl flex items-center justify-center cursor-pointer group transition-transform">
-                        <div class="w-20 h-20 border border-white/30 rounded-full flex items-center justify-center">
-                            <span class="text-white font-serif italic text-sm tracking-widest group-hover:animate-pulse">Open</span>
+                    <div onclick="openInvitation()" class="wax-seal w-28 h-28 rounded-full flex items-center justify-center cursor-pointer group">
+                        <div class="w-24 h-24 border-2 border-[#b8860b]/50 rounded-full flex flex-col items-center justify-center">
+                            <i data-lucide="heart" class="text-white/80 w-6 h-6 mb-1 fill-white/10" stroke-width="1.5"></i>
+                            <span class="text-white font-serif italic text-[10px] tracking-[0.3em] uppercase">Open</span>
                         </div>
                     </div>
-                    <p class="mt-6 text-[#d4af37] font-serif italic text-lg opacity-80 animate-bounce">Nilabja & Cynthea</p>
+                    <p class="mt-8 text-[#d4af37] font-serif italic text-2xl tracking-tighter opacity-90 drop-shadow-lg">Nilabja & Cynthea</p>
                 </div>
 
-                <div class="card-flap-bottom flex-1 bg-[#4a0404] border-t border-[#d4af37]/30 relative overflow-hidden">
+                <div class="card-flap-bottom flex-1 bg-[#4a0404] relative overflow-hidden">
                     <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/paper-fibers.png')]"></div>
+                    <div class="card-ornament absolute inset-0"></div>
                 </div>
             </div>
 
@@ -164,6 +179,7 @@
                     <section class="h-screen relative flex flex-col justify-end px-12 pb-24 overflow-hidden">
                         <div class="absolute inset-0 z-0 overflow-hidden">
                             <div class="absolute inset-0 bg-gradient-to-t from-[#fdfaf5] via-[#fdfaf5]/20 to-transparent z-10"></div>
+                            <!-- Background with subtle scaling -->
                             <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?q=80&w=2070&auto=format&fit=crop" 
                                  class="w-full h-full object-cover opacity-10 filter sepia-[0.5]" alt="Mandap">
                         </div>
@@ -309,8 +325,10 @@
             const now = new Date().getTime();
             const diff = targetDate - now;
             if (diff > 0) {
-                document.getElementById('days').innerText = String(Math.floor(diff / (1000 * 60 * 60 * 24))).padStart(2, '0');
-                document.getElementById('hours').innerText = String(Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
+                const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                document.getElementById('days').innerText = String(d).padStart(2, '0');
+                document.getElementById('hours').innerText = String(h).padStart(2, '0');
             }
         }
         setInterval(updateTimer, 1000);
@@ -365,7 +383,7 @@
 
             tl.to(".card-flap-top", { yPercent: -100, duration: 1.5, ease: "expo.inOut" })
               .to(".card-flap-bottom", { yPercent: 100, duration: 1.5, ease: "expo.inOut" }, "<")
-              .to(".card-seal", { scale: 0, opacity: 0, duration: 0.5 }, "<")
+              .to(".card-seal", { scale: 0, opacity: 0, duration: 0.5, ease: "back.in(2)" }, "<")
               .to("#cardOverlay", { opacity: 0, duration: 1 });
         }
 
@@ -373,14 +391,20 @@
         function initLenisAndScroll() {
             gsap.registerPlugin(ScrollTrigger);
 
+            const scrollWrapper = document.getElementById('scroll-wrapper');
+            const scrollContent = document.querySelector('.scroll-content');
+
+            // Lenis initialization with enhanced mobile settings
             const lenis = new Lenis({
-                wrapper: document.getElementById('scroll-wrapper'),
-                content: document.querySelector('.scroll-content'),
-                duration: 1.4,
-                easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-                // Ensure touch support is handled correctly for mobile
-                smoothTouch: true,
-                touchMultiplier: 1.5,
+                wrapper: scrollWrapper,
+                content: scrollContent,
+                lerp: 0.1,
+                duration: 1.5,
+                orientation: 'vertical',
+                gestureOrientation: 'vertical',
+                smoothWheel: true,
+                smoothTouch: true, // Enable smooth scrolling on touch devices
+                touchMultiplier: 1.8, // Increase touch sensitivity
                 infinite: false
             });
 
@@ -390,16 +414,15 @@
             }
             requestAnimationFrame(raf);
             
-            // Sync GSAP with Lenis
+            // Sync GSAP with Lenis scroll
             lenis.on('scroll', ScrollTrigger.update);
             
-            // Allow Lenis to handle wheel/touch events on the wrapper
             gsap.ticker.add((time) => {
               lenis.raf(time * 1000);
             });
             gsap.ticker.lagSmoothing(0);
 
-            // Hero Animation
+            // Trigger animations on start
             gsap.from(".hero-reveal .anim-item", {
                 y: 80,
                 opacity: 0,
@@ -416,6 +439,7 @@
                         trigger: section,
                         scroller: "#scroll-wrapper",
                         start: "top 85%",
+                        toggleActions: "play none none none"
                     },
                     y: 60,
                     opacity: 0,
@@ -438,6 +462,9 @@
                 scale: 1.15,
                 ease: "none"
             });
+            
+            // Refresh ScrollTrigger as mobile layout can sometimes shift
+            ScrollTrigger.refresh();
         }
     </script>
 </body>
